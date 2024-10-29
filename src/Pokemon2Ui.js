@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { getComponentSharedStyles } from '@bbva-web-components/bbva-core-lit-helpers';
 import styles from './pokemon2-ui.css.js';
-import '@bbva-web-components/bbva-button-default/bbva-button-default.js'
+import '@bbva-web-components/bbva-button-default/bbva-button-default.js';
+import '@pokedex/pokemon2-dm/pokemon2-dm.js';
 
 export class Pokemon2Ui extends LitElement {
   static get properties() {
@@ -13,24 +14,13 @@ export class Pokemon2Ui extends LitElement {
   constructor() {
     super();
     this.pokemons = [];
-    this.fetchPokemons();
   }
 
-  
-  async fetchPokemons() {
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20');
-    const data = await response.json();
-
-    const pokemonDetails = await Promise.all(
-      data.results.map(pokemon => fetch(pokemon.url).then(res => res.json()))
-    )
- 
-    this.pokemons = pokemonDetails.filter(pokemon => !pokemon.evolves_from_species).map(pokemon => ({
-      name: pokemon.name,
-      image: pokemon.sprites.front_default,
-      abilities: pokemon.abilities.map(ability => ability.ability.name).join(', '),
-    }));
+  async firstUpdated() {
+    const pokemon2Dm = this.shadowRoot.querySelector('pokemon2-dm');
+    this.pokemons = await pokemon2Dm.fetchPokemons();    
   }
+
 
   handleDetails(pokemonName) {
     alert(`Ver detalles de ${pokemonName}`);
@@ -87,6 +77,7 @@ export class Pokemon2Ui extends LitElement {
           </div>
         `)}
       </div>
+      <pokemon2-dm></pokemon2-dm>
     `;    
   }
 }

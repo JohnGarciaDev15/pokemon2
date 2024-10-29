@@ -21,6 +21,7 @@
     "@bbva-web-components/bbva-button-default":"^5.15.15",
     "@bbva-web-components/bbva-core-lit-helpers": "^1.0.0",
     "@bbva-web-components/bbva-foundations-styles": "^2.0.0",
+    "@pokedex/pokemon2-dm": "git+https://github.com/JohnGarciaDev15/pokemon2-dm.git#master",
     "lit-element": "^2.0.0",
     "lit-html": "^1.0.0"
   },
